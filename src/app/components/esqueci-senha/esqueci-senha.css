@@ -1,0 +1,10 @@
+::ng-deep app-login-cadastro .right-side p {
+  margin-bottom: 15px;
+}
+
+::ng-deep app-login-cadastro .cadastro{
+  width: 100%;
+  position: relative;
+  text-align: right;
+  margin-right: 50px;
+}

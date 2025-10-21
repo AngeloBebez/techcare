@@ -1,0 +1,133 @@
+.entrar {
+  font-weight: bold;
+}
+
+/* ====== CONTAINER PRINCIPAL ====== */
+.login-container {
+  background-color: #e5e5e5;
+  height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  display: flex;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 68%;
+  height: 83%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== LADO ESQUERDO ====== */
+.left-side {
+  background-image: url('/assets/background.png');
+  background-color: #111;
+  color: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.image-placeholder span {
+  color: #aaa;
+}
+
+.left-side h2 {
+  font-size: 3rem;
+}
+
+/* ====== LADO DIREITO ====== */
+.right-side {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-side h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.right-side p {
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* ====== FORM ====== */
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 80%;
+}
+
+.input-group {
+  width: 95%;
+}
+
+.input-group input {
+  padding: 12px;
+  width: 93%;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #000;
+}
+
+.forgot {
+  display: block;
+  width: 100%;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #666;
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.btn-entrar {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 93%;
+}
+
+.btn-entrar:hover {
+  background-color: #333;
+}
+
+.login {
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.login a {
+  color: #000;
+  text-decoration: none;
+}
+
+.login a:hover {
+  text-decoration: underline;
+}

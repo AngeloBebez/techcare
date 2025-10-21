@@ -1,0 +1,11 @@
+<app-login-cadastro
+  [titulo]="'Login'"
+  [subtitulo]="'Faça o login para ver seus dispositivos!'"
+  [campos]="campos"
+  [textoBotao]="'Entrar'"
+  [linkDescricao]="'Não possui uma conta?'"
+  [linkTexto]="'Cadastre-se'"
+  [linkRota]="'/cadastro'"
+  [mostrarEsqueciSenha]="true"
+  (formSubmit)="onSubmit($event)"
+></app-login-cadastro>
