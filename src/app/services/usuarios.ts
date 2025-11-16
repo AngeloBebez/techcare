@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 export interface Usuario {
-  id: number;
+  id?: number; // ← Opcional pois será gerado pelo JSON Server
   nome: string;
   email: string;
   senha: string;
@@ -11,36 +14,80 @@ export interface Usuario {
   providedIn: 'root'
 })
 export class UsuariosService {
-  private usuarios: Usuario[] = [
-    { id: 1, nome: 'Miguel', email: 'miguel@miguel.com', senha: '1234' },
-    { id: 2, nome: 'Ana', email: 'ana@ana.com', senha: 'abcd' }
-  ];
 
-  autenticar(email: string, senha: string): Usuario | undefined {
-    if (!email || !senha) return undefined;
+  private apiUrl = 'http://localhost:3000/usuarios';
+  constructor(private http: HttpClient) {}
+  private logado = false;
 
-    const emailFormatado = email.trim().toLowerCase();
-    const senhaFormatada = senha.trim();
+  setLogado(valor: boolean) {
+    this.logado = valor;
+  }
 
-    return this.usuarios.find(
-      u => u.email.toLowerCase() === emailFormatado && u.senha === senhaFormatada
+  isLogado() {
+    return this.logado;
+  }
+
+  autenticar(email: string, senha: string): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl).pipe(
+      map(usuarios => usuarios.filter(u =>
+        u.email === email && u.senha === senha
+      ))
     );
   }
 
-  cadastrar(usuario: Omit<Usuario, 'id'>): Usuario {
-    const novoUsuario: Usuario = {
-      ...usuario,
-      id: this.usuarios.length + 1
+  cadastrar(usuario: Usuario): Observable<Usuario> {
+    const { id, ...dados } = usuario;
+
+    const usuarioFormatado = {
+      ...dados
     };
-    this.usuarios.push(novoUsuario);
-    return novoUsuario;
+
+    console.log('Enviando usuário para API:', usuarioFormatado);
+    return this.http.post<Usuario>(this.apiUrl, usuarioFormatado);
   }
 
-  getUsuarios(): Usuario[] {
-    return this.usuarios;
+  getUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  usuarioExiste(email: string): boolean {
-    return this.usuarios.some(u => u.email.toLowerCase() === email.trim().toLowerCase());
+  usuarioExiste(email: string): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl).pipe(
+      map(usuarios => usuarios.filter(u => u.email === email))
+    );
+  }
+
+  atualizarSenha(email: string, novaSenha: string): Observable<Usuario> {
+    return this.http.get<Usuario[]>(this.apiUrl).pipe(
+      map(usuarios => {
+        const usuarioEncontrado = usuarios.find(u => u.email === email);
+        if (!usuarioEncontrado) {
+          throw new Error('Usuário não encontrado');
+        }
+        return usuarioEncontrado;
+      }),
+      switchMap(usuario => {
+        const usuarioAtualizado = {
+          ...usuario,
+          senha: novaSenha
+        };
+
+        return this.http.put<Usuario>(`${this.apiUrl}/${usuario.id}`, usuarioAtualizado);
+      })
+    );
+  }
+
+  atualizarSenhaSimples(email: string, novaSenha: string): Observable<Usuario> {
+    return this.http.get<Usuario[]>(this.apiUrl).pipe(
+      switchMap(usuarios => {
+        const usuario = usuarios.find(u => u.email === email);
+        if (!usuario) {
+          throw new Error('Usuário não encontrado');
+        }
+
+        const dadosAtualizacao = { senha: novaSenha };
+
+        return this.http.patch<Usuario>(`${this.apiUrl}/${usuario.id}`, dadosAtualizacao);
+      })
+    );
   }
 }

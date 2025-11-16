@@ -1,0 +1,109 @@
+<div class="modal-overlay" (click)="fechar()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="header">
+      <h2>📋 Detalhes do Dispositivo</h2>
+      <span class="fechar" (click)="fechar()">✕ Fechar</span>
+    </div>
+
+    <div class="detalhes-content">
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-label">📱 Nome:</span>
+          <span class="info-value">{{ dispositivo?.nomeDispositivo }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">🏷️ Categoria:</span>
+          <span class="info-value">
+            <span class="categoria-icon">{{ getIconeCategoria(dispositivo?.categoria) }}</span>
+            {{ getNomeCategoria(dispositivo?.categoria) }}
+          </span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">📅 Data de Aquisição:</span>
+          <span class="info-value">{{ formatarDataAquisicao() }}</span>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-item full-width">
+          <div class="manutencoes-header">
+            <span class="info-label">🔧 Últimas Manutenções:</span>
+            <button class="btn-adicionar" (click)="iniciarAdicaoManutencao()">
+              + Adicionar Manutenção
+            </button>
+          </div>
+
+          <div *ngIf="adicionandoManutencao" class="form-manutencao">
+            <h4>{{ editandoManutencaoIndex !== null ? 'Editar' : 'Nova' }} Manutenção</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Data:</label>
+                <input type="date" [(ngModel)]="novaManutencao.data" class="form-input" />
+              </div>
+              <div class="form-group full-width">
+                <label>Descrição:</label>
+                <textarea
+                  [(ngModel)]="novaManutencao.descricao"
+                  class="form-textarea"
+                  placeholder="Descreva o que foi feito na manutenção..."
+                ></textarea>
+              </div>
+            </div>
+            <div class="form-botoes">
+              <button class="btn-salvar" (click)="salvarManutencao()">
+                {{ editandoManutencaoIndex !== null ? 'Atualizar' : 'Salvar' }}
+              </button>
+              <button class="btn-cancelar" (click)="cancelarManutencao()">Cancelar</button>
+            </div>
+          </div>
+
+          <div class="manutencoes-list">
+            <div
+              *ngFor="let manutencao of manutencoes; let i = index"
+              class="manutencao-item"
+            >
+              <div class="manutencao-info">
+                <span class="manutencao-data">{{ formatarDataBR(manutencao.data) }}</span>
+                <span class="manutencao-descricao">{{ manutencao.descricao }}</span>
+              </div>
+              <div class="manutencao-acoes">
+                <button class="btn-editar" (click)="iniciarEdicaoManutencao(i)">🖋</button>
+                <button class="btn-excluir" (click)="excluirManutencao(i)">🗑️</button>
+              </div>
+            </div>
+            <div *ngIf="getHistoricoManutencoes().length === 0" class="sem-manutencoes">
+              Nenhuma manutenção registrada
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-item full-width">
+          <span class="info-label">📝 Observações:</span>
+          <div class="info-textarea">{{ dispositivo?.observacoes || 'Sem observações' }}</div>
+        </div>
+
+        <div class="info-item full-width">
+          <span class="info-label">🔔 Lembrete:</span>
+          <div class="info-textarea lembrete">{{ dispositivo?.lembrete || 'Sem lembrete' }}</div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-label">✅ Estado:</span>
+          <span
+            class="info-value estado"
+            [class.em-dia]="dispositivo?.estado === 'Em dia'"
+            [class.precisa]="dispositivo?.estado === 'Precisa de manutenção'"
+          >
+            {{ dispositivo?.estado || 'Em dia' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

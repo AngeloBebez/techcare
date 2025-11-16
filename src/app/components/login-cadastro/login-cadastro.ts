@@ -1,76 +1,53 @@
-import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-login-cadastro',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  selector: 'app-login-cadastro',
   templateUrl: './login-cadastro.html',
   styleUrls: ['./login-cadastro.css'],
-  encapsulation: ViewEncapsulation.None
+  imports: [CommonModule, ReactiveFormsModule, RouterModule]
 })
-export class LoginCadastroComponent {
-  @Input() titulo: string = '';
-  @Input() subtitulo: string = '';
-  @Input() campos: {
-    type: string;
-    model: string;
-    name: string;
-    placeholder: string;
-    required?: boolean;
-  }[] = [];
-  @Input() textoBotao: string = '';
-  @Input() linkTexto: string = '';
-  @Input() linkRota: string = '';
-  @Input() linkDescricao: string = '';
+export class LoginCadastroComponent implements OnInit {
+
+  @Input() titulo!: string;
+  @Input() subtitulo!: string;
+  @Input() campos!: any[];
+  @Input() textoBotao!: string;
+  @Input() linkDescricao!: string;
+  @Input() linkTexto!: string;
+  @Input() linkRota!: string;
   @Input() mostrarEsqueciSenha: boolean = false;
 
-  @Input() onSubmitFn!: (formData: any) => void;
-  @Output() formSubmit = new EventEmitter<any>();
+  @Output() submitEvent = new EventEmitter<any>();
 
-  data: any = {};
+  form!: FormGroup;
 
-  // Inicializa o objeto data quando o componente é criado
+  constructor(private fb: FormBuilder) {}
+
   ngOnInit() {
+    const formConfig: any = {};
+
     this.campos.forEach(campo => {
-      this.data[campo.model] = '';
-    });
-  }
+      const validators: ValidatorFn[] = [];
 
-  // Função chamada durante a digitação (validação em tempo real)
-  onInputChange() {
-    console.log('Dados atuais:', this.data);
-  }
+      if (campo.required) validators.push(Validators.required);
+      if (campo.type === 'email') validators.push(Validators.email);
+      if (campo.minLength) validators.push(Validators.minLength(campo.minLength));
 
-  onSubmit(form: NgForm) {
-    console.log('=== FORM SUBMIT ===');
-    console.log('Formulário válido:', form.valid);
-    console.log('Dados:', this.data);
-    console.log('onSubmitFn existe?:', !!this.onSubmitFn);
-
-    // Força a validação de todos os campos
-    Object.keys(form.controls).forEach(key => {
-      form.controls[key].markAsTouched();
+      formConfig[campo.model] = ['', validators];
     });
 
-    if (form.valid) {
-      if (this.onSubmitFn) {
-        console.log('Chamando onSubmitFn...');
-        this.onSubmitFn(this.data);
-      } else {
-        this.formSubmit.emit(this.data);
-      }
+    this.form = this.fb.group(formConfig);
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      this.submitEvent.emit(this.form.value);
     } else {
-      console.log('Formulário inválido - campos com erro:');
-      Object.keys(form.controls).forEach(key => {
-        const control = form.controls[key];
-        if (control.invalid) {
-          console.log(`- ${key}:`, control.errors);
-        }
-      });
-      alert('Por favor, preencha todos os campos obrigatórios corretamente.');
+      this.form.markAllAsTouched();
     }
   }
 }

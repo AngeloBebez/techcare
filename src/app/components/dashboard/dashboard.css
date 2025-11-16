@@ -1,0 +1,120 @@
+.dashboard-container {
+  background-color: #e5e5e5;
+  min-height: calc(100vh - 70px);
+  padding: 40px 60px;
+}
+
+.header-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header-dashboard h2 {
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.btn-adicionar {
+  background-color: #000;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-adicionar:hover {
+  background-color: #333;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filtros input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  outline: none;
+}
+
+.tabela-dispositivos {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tabela-dispositivos th {
+  text-align: left;
+  background-color: #f2f2f2;
+  padding: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tabela-dispositivos td {
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.linha-clicavel {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.linha-clicavel:hover {
+  background-color: #f8f9fa;
+}
+
+.linha-clicavel:active {
+  background-color: #e9ecef;
+}
+
+.icone {
+  font-size: 1.3rem;
+  margin-right: 8px;
+}
+
+.estado {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.em-dia {
+  background-color: #d4f7d4;
+  color: #1e7e1e;
+}
+
+.precisa {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.acoes {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-acao {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.btn-acao:hover {
+  transform: scale(1.1);
+}

@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginCadastroComponent } from '../login-cadastro/login-cadastro';
 import { UsuariosService } from '../../services/usuarios';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [LoginCadastroComponent],
+  imports: [CommonModule, ReactiveFormsModule, LoginCadastroComponent],
   templateUrl: './cadastro.html',
   styleUrls: ['./cadastro.css']
 })
@@ -16,38 +18,40 @@ export class CadastroComponent {
     private router: Router
   ) {}
 
-  onSubmit(formData: any) {
-    console.log('Tentando cadastrar:', formData);
+  onSubmit(formValue: any) {
+    const { nome, email, senha } = formValue;
 
-    const { nome, email, senha } = formData;
+    console.log('Tentando cadastrar:', formValue);
 
-    if (!nome || !email || !senha) {
-      alert('Preencha todos os campos.');
-      return;
-    }
+    this.usuariosService.usuarioExiste(email).subscribe({
+      next: (usuarios) => {
+        if (usuarios.length > 0) {
+          alert('Já existe um usuário cadastrado com este e-mail.');
+          return;
+        }
 
-    if (this.usuariosService.usuarioExiste(email)) {
-      alert('Já existe um usuário cadastrado com este e-mail.');
-      return;
-    }
-
-    const novoUsuario = this.usuariosService.cadastrar({ nome, email, senha });
-    console.log('Usuário cadastrado com sucesso:', novoUsuario);
-
-    alert('Usuário cadastrado com sucesso!');
-    this.router.navigate(['/login']);
+        this.usuariosService.cadastrar({ nome, email, senha }).subscribe({
+          next: (novoUsuario) => {
+            console.log('Usuário cadastrado:', novoUsuario);
+            alert('Usuário cadastrado com sucesso!');
+            this.router.navigate(['/login']);
+          },
+          error: (error) => {
+            console.error('Erro ao cadastrar usuário:', error);
+            alert('Erro ao cadastrar usuário. Tente novamente.');
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Erro ao verificar usuário:', error);
+        alert('Erro ao verificar usuário. Tente novamente.');
+      }
+    });
   }
 
-  titulo = 'Crie sua conta';
-  subtitulo = 'Cadastre-se para acessar o TechCare';
-  textoBotao = 'Cadastrar';
-  linkDescricao = 'Já possui uma conta?';
-  linkTexto = 'Login';
-  linkRota = '/login';
-
   campos = [
-    { type: 'text', model: 'nome', name: 'nome', placeholder: 'Nome', required: true },
-    { type: 'email', model: 'email', name: 'email', placeholder: 'E-mail', required: true },
-    { type: 'password', model: 'senha', name: 'senha', placeholder: 'Senha', required: true }
+    { type: 'text', model: 'nome', name: 'nome', placeholder: 'Nome', required: true, validators: ['required'] },
+    { type: 'email', model: 'email', name: 'email', placeholder: 'E-mail', required: true, validators: ['required', 'email'] },
+    { type: 'password', model: 'senha', name: 'senha', placeholder: 'Senha', required: true, validators: ['required'] }
   ];
 }

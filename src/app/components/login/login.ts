@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LoginCadastroComponent } from '../login-cadastro/login-cadastro';
 import { UsuariosService } from '../../services/usuarios';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, LoginCadastroComponent],
-  templateUrl: './login.html'
+  imports: [ReactiveFormsModule, LoginCadastroComponent],
+  templateUrl: './login.html',
 })
 export class LoginComponent {
   constructor(
     private usuariosService: UsuariosService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {}
 
   onSubmit(formData: any) {
@@ -21,38 +23,24 @@ export class LoginComponent {
 
     console.log('Dados do formulário:', formData);
 
-    const usuario = this.usuariosService.autenticar(email, senha);
+    this.usuariosService.autenticar(email, senha).subscribe((usuarios) => {
+      if (usuarios.length > 0) {
+        const usuario = usuarios[0];
 
-    if (usuario) {
-      alert(`Bem-vindo, ${usuario.nome}!`);
-      // this.router.navigate(['/fazer depois']);
-    } else {
-      alert('E-mail ou senha incorretos!');
-    }
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+        this.auth.setLogado(true);
+
+        alert(`Bem-vindo, ${usuario.nome}!`);
+        this.router.navigate(['/dashboard']);
+      } else {
+        alert('E-mail ou senha incorretos!');
+      }
+    });
   }
-
-  titulo = 'Bem-vindo de volta!';
-  subtitulo = 'Entre com suas credenciais';
-  textoBotao = 'Entrar';
-  textoAlternativo = 'Não tem uma conta?';
-  linkTexto = 'Cadastre-se';
-  linkRota = '/cadastro';
-  mostrarEsqueciSenha = true;
 
   campos = [
-  {
-    type: 'email',
-    model: 'email',
-    name: 'email',
-    placeholder: 'E-mail',
-    required: true
-  },
-  {
-    type: 'password',
-    model: 'senha',
-    name: 'senha',
-    placeholder: 'Senha',
-    required: true
-  }
-];
+    { type: 'email', model: 'email', name: 'email', placeholder: 'E-mail', required: true },
+    { type: 'password', model: 'senha', name: 'senha', placeholder: 'Senha', required: true },
+  ];
 }

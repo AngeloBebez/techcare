@@ -1,13 +1,13 @@
 <header class="navbar">
   <div class="logo">
-
     <div class="logo-placeholder">
-       <img src="assets/logo.png" alt="Logo TechCare" />
-       <h1>TechCare</h1>
+      <img src="assets/logo.png" alt="Logo TechCare" />
+      <h1>TechCare</h1>
     </div>
   </div>
+
   <nav>
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/cadastro">Dispositivos</a>
+    <a routerLink="/dashboard" routerLinkActive="ativo" [class.desativado]="!auth.isLogado()" [class.bloqueado]="!auth.isLogado()" (click)="!auth.isLogado() && $event.preventDefault()">Dashboard</a>
+    <a *ngIf="mostrarBotaoSair" class="sair-btn" (click)="logout()">Sair</a>
   </nav>
 </header>

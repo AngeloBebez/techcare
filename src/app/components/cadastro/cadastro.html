@@ -1,10 +1,11 @@
 <app-login-cadastro
-  [titulo]="titulo"
-  [subtitulo]="subtitulo"
+  [titulo]="'Crie sua conta'"
+  [subtitulo]="'Cadastre-se para acessar o TechCare!'"
   [campos]="campos"
-  [textoBotao]="textoBotao"
-  [linkDescricao]="linkDescricao"
-  [linkTexto]="linkTexto"
-  [linkRota]="linkRota"
-  [onSubmitFn]="onSubmit.bind(this)"
+  [textoBotao]="'Cadastrar'"
+  [linkDescricao]="'Já possui uma conta?'"
+  [linkTexto]="'Login'"
+  [linkRota]="'/login'"
+  [mostrarEsqueciSenha]="false"
+  (submitEvent)="onSubmit($event)"
 ></app-login-cadastro>

@@ -1,0 +1,105 @@
+<div class="modal-overlay" (click)="cancelar()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+
+    <div class="header">
+      <h2>{{ isEditando ? 'Editar dispositivo' : 'Cadastro de dispositivo' }}</h2>
+      <span class="fechar" (click)="cancelar()">X Fechar</span>
+    </div>
+
+    <form [formGroup]="form" class="form-grid">
+
+      <div class="col-esq">
+        <label>Nome: <span class="obrigatorio">*</span></label>
+        <input type="text" formControlName="nomeDispositivo" />
+        <div class="erro-validacao" *ngIf="form.get('nomeDispositivo')?.invalid && form.get('nomeDispositivo')?.touched">
+          Nome é obrigatório
+        </div>
+
+        <label>Categoria <span class="obrigatorio">*</span></label>
+        <div class="categoria-grid">
+          <div
+            *ngFor="let c of categorias"
+            class="categoria-item"
+            [class.selected]="form.value.categoria == c.id"
+            (click)="selecionarCategoria(c.id)"
+          >
+            <div class="icon">{{ c.icon }}</div>
+            <span>{{ c.nome }}</span>
+          </div>
+        </div>
+        <div class="erro-validacao" *ngIf="form.get('categoria')?.invalid && form.get('categoria')?.touched">
+          Categoria é obrigatória
+        </div>
+
+        <label>Data de aquisição: <span class="obrigatorio">*</span></label>
+        <input type="date" formControlName="dataAquisicao">
+        <div class="erro-validacao" *ngIf="form.get('dataAquisicao')?.invalid && form.get('dataAquisicao')?.touched">
+          Data de aquisição é obrigatória
+        </div>
+
+        <label>Observações: <span class="obrigatorio">*</span></label>
+        <textarea formControlName="observacoes"></textarea>
+        <div class="erro-validacao" *ngIf="form.get('observacoes')?.invalid && form.get('observacoes')?.touched">
+          Observações são obrigatórias
+        </div>
+      </div>
+
+      <div class="col-dir">
+        <div *ngIf="!isEditando" class="box-section">
+          <div class="box-header">
+            <span>🔧 Primeira Manutenção <span class="obrigatorio">*</span></span>
+          </div>
+
+          <label>Data da Manutenção:</label>
+          <input type="date" formControlName="dataManutencao" class="manutencao-input">
+          <div class="erro-validacao" *ngIf="form.get('dataManutencao')?.invalid && form.get('dataManutencao')?.touched">
+            Data da manutenção é obrigatória
+          </div>
+
+          <label>Descrição da Manutenção:</label>
+          <textarea
+            formControlName="descricaoManutencao"
+            class="descricao-manutencao"
+            placeholder="Descreva o que foi feito na primeira manutenção..."
+          ></textarea>
+          <div class="erro-validacao" *ngIf="form.get('descricaoManutencao')?.invalid && form.get('descricaoManutencao')?.touched">
+            Descrição da manutenção é obrigatória
+          </div>
+        </div>
+
+        <div *ngIf="isEditando" class="box-section" style="background: #fff3cd; border: 1px solid #ffeaa7;">
+          <div class="box-header">
+            <span>🔧 Gerenciamento de Manutenções</span>
+          </div>
+          <div style="color: #856404; font-size: 0.9rem; line-height: 1.4;">
+            <p style="margin: 0;">
+              Para adicionar, editar ou excluir manutenções, acesse os detalhes do dispositivo.
+              Lá você poderá gerenciar todo o histórico de manutenções.
+            </p>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="box-section">
+          <div class="box-header">
+            <span>🔔 Lembretes <span class="obrigatorio">*</span></span>
+          </div>
+          <textarea class="lembrete-textarea" formControlName="lembrete"></textarea>
+          <div class="erro-validacao" *ngIf="form.get('lembrete')?.invalid && form.get('lembrete')?.touched">
+            Lembrete é obrigatório
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+    <div class="botoes">
+      <button class="btn-salvar" type="button" (click)="salvar()" [disabled]="form.invalid">
+        {{ isEditando ? 'Atualizar' : 'Salvar' }}
+      </button>
+    </div>
+
+  </div>
+</div>

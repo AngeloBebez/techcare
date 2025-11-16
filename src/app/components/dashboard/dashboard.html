@@ -1,0 +1,60 @@
+<main class="dashboard-container">
+  <div class="header-dashboard">
+    <h2>Dispositivos</h2>
+    <button class="btn-adicionar" (click)="adicionarDispositivo()">+ Adicionar</button>
+  </div>
+
+  <table class="tabela-dispositivos">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Última Manutenção</th>
+        <th>Estado</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let d of dispositivos" class="linha-clicavel" (click)="visualizarDispositivo(d)">
+        <td>
+          <span class="icone">{{ d.icone }}</span>
+          {{ d.nome }}
+        </td>
+        <td>{{ d.categoria }}</td>
+        <td>{{ d.ultimaManutencao }}</td>
+        <td>
+          <span
+            class="estado"
+            [ngClass]="{
+              'em-dia': d.estado === 'Em dia',
+              precisa: d.estado === 'Precisa de manutenção'
+            }"
+          >
+            {{ d.estado }}
+          </span>
+        </td>
+        <td class="acoes" (click)="$event.stopPropagation()">
+          <button class="btn-acao" (click)="editarDispositivo(d)">🖋</button>
+          <button class="btn-acao" (click)="deletarDispositivo(d.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<app-dispositivos-forms
+  *ngIf="modalAberto"
+  [dispositivoParaEditar]="dispositivoSelecionado"
+  (close)="modalAberto = false"
+  (saved)="aoSalvar()"
+>
+</app-dispositivos-forms>
+
+<app-detalhes-dispositivos
+  *ngIf="modalDetalhesAberto"
+  [dispositivo]="dispositivoDetalhes"
+  (close)="fecharDetalhes()"
+  (dispositivoAtualizado)="onDispositivoAtualizado($event)"
+>
+</app-detalhes-dispositivos>

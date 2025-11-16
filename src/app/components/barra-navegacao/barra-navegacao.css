@@ -5,26 +5,45 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
+  flex-wrap: wrap;
 }
 
-.logo-placeholder{
+.logo-placeholder {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
 }
 
-.logo-placeholder img{
+.logo-placeholder img {
   width: 40px;
+}
+
+.navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
 .navbar nav a {
   color: white;
   text-decoration: none;
-  margin-left: 30px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .navbar nav a:hover {
   text-decoration: underline;
+  opacity: 0.8;
+}
+
+.desativado {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.bloqueado {
+  pointer-events: none;
 }

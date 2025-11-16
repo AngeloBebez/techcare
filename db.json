@@ -1,0 +1,124 @@
+{
+  "usuarios": [
+    {
+      "id": "1d19",
+      "nome": "Ana",
+      "email": "ana@ana.com",
+      "senha": "abcd"
+    },
+    {
+      "id": "5500",
+      "nome": "Miguel",
+      "email": "miguel@miguel.com",
+      "senha": "1234"
+    },
+    {
+      "id": "5fdf",
+      "nome": "vini",
+      "email": "vini@vini.com",
+      "senha": "vini2"
+    }
+  ],
+  "dispositivos": [
+    {
+      "id": "1225",
+      "nomeDispositivo": "teste",
+      "categoria": 2,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observaçõesteste",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [
+        {
+          "data": "2025-11-11",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "id": "7f78",
+      "nomeDispositivo": "teste",
+      "categoria": 6,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observaçõesteste",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "id": "3538",
+      "nomeDispositivo": "teste",
+      "categoria": 2,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observações",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "id": "1907",
+      "nomeDispositivo": "teste",
+      "categoria": 5,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observaçõesteste",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicialteste"
+        }
+      ]
+    },
+    {
+      "id": "7807",
+      "nomeDispositivo": "teste",
+      "categoria": 2,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observações",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "id": "3d4b",
+      "nomeDispositivo": "teste",
+      "categoria": 6,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observações",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": "5500",
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "nomeDispositivo": "teste",
+      "categoria": 2,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observações",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": null,
+      "manutencoes": [],
+      "id": "e475"
+    }
+  ]
+}

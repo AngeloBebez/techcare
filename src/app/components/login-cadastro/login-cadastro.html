@@ -1,5 +1,6 @@
 <main class="login-container">
   <div class="login-box">
+
     <div class="left-side">
       <div class="image-placeholder">
         <img src="assets/logo.png" alt="Logo TechCare" />
@@ -8,46 +9,48 @@
     </div>
 
     <div class="right-side">
+
       <h2>{{ titulo }}</h2>
       <p>{{ subtitulo }}</p>
 
-      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="form-login">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-login">
+
         <div *ngFor="let campo of campos" class="input-group">
+
           <label>
             {{ campo.placeholder }}:
             <input
               [type]="campo.type"
-              [(ngModel)]="data[campo.model]"
-              [name]="campo.model"
-              [required]="campo.required || false"
               [placeholder]="campo.placeholder"
-              #inputCampo="ngModel"
-              (input)="onInputChange()"
-              (blur)="inputCampo.control.markAsTouched()" />
+              [formControlName]="campo.model"
+            />
           </label>
 
-          <!-- Mensagens de erro - SINTAXE CORRIGIDA -->
-          @if (inputCampo.invalid && inputCampo.touched) {
-            <div class="erro">
-              @if (inputCampo.errors?.['required']) {
-                <small>Este campo é obrigatório.</small>
-              }
-              @if (campo.type === 'email' && inputCampo.errors?.['email']) {
-                <small>Insira um e-mail válido.</small>
-              }
-            </div>
-          }
+          <div class="erro"
+            *ngIf="form.controls[campo.model].touched && form.controls[campo.model].invalid">
 
-          <br />
+            <small *ngIf="form.controls[campo.model].errors?.['required']">
+              Este campo é obrigatório.
+            </small>
+
+            <small *ngIf="form.controls[campo.model].errors?.['email']">
+              Insira um e-mail válido.
+            </small>
+
+            <small *ngIf="form.controls[campo.model].errors?.['minlength']">
+              Mínimo de {{ form.controls[campo.model].errors?.['minlength'].requiredLength }} caracteres.
+            </small>
+
+          </div>
+
+          <br>
         </div>
 
-        @if (mostrarEsqueciSenha) {
-          <a class="forgot" [routerLink]="['/esqueci-senha']">
-            Esqueci a senha
-          </a>
-        }
+        <a class="forgot" *ngIf="mostrarEsqueciSenha" [routerLink]="['/esqueci-senha']">
+          Esqueci a senha
+        </a>
 
-        <button type="submit" class="btn-entrar" [disabled]="!loginForm.form.valid">
+        <button type="submit" class="btn-entrar" [disabled]="form.invalid">
           {{ textoBotao }}
         </button>
 
@@ -55,6 +58,7 @@
           {{ linkDescricao }}
           <a [routerLink]="linkRota"><strong>{{ linkTexto }}</strong></a>
         </p>
+
       </form>
     </div>
   </div>

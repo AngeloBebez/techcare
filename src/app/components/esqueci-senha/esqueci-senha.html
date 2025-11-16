@@ -1,10 +1,10 @@
 <app-login-cadastro
   [titulo]="'Recuperar a senha'"
-  [subtitulo]="'Digite seu e-mail:'"
+  [subtitulo]="'Digite seu e-mail e a nova senha:'"
   [campos]="campos"
-  [textoBotao]="'Enviar'"
+  [textoBotao]="'Atualizar senha'"
   [linkDescricao]="'Lembrou sua senha?'"
   [linkTexto]="'Fazer login'"
   [linkRota]="'/login'"
-  [onSubmitFn]="onSubmit.bind(this)"
+  (submitEvent)="onSubmit($event)"
 ></app-login-cadastro>
