@@ -119,6 +119,36 @@
       "usuarioId": null,
       "manutencoes": [],
       "id": "e475"
+    },
+    {
+      "id": "7332",
+      "nomeDispositivo": "teste",
+      "categoria": 5,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observaçõesteste",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": "1d19",
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
+    },
+    {
+      "id": "d009",
+      "nomeDispositivo": "teste2",
+      "categoria": 2,
+      "dataAquisicao": "2025-11-16",
+      "observacoes": "Sem observações",
+      "lembrete": "Verificar periodicamente",
+      "usuarioId": "5500",
+      "manutencoes": [
+        {
+          "data": "2025-11-16",
+          "descricao": "Manutenção inicial"
+        }
+      ]
     }
   ]
 }
